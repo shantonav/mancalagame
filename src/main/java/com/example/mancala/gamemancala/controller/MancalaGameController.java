@@ -1,6 +1,7 @@
 package com.example.mancala.gamemancala.controller;
 
 import com.example.mancala.gamemancala.model.MancalaGame;
+import com.example.mancala.gamemancala.model.MancalaGameStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,12 @@ public class MancalaGameController {
         MancalaGame aNewMancalaGame = new MancalaGame(gameId,returnURI);
         log.info("Mancala with game id {} created",gameId);
         return  new ResponseEntity<MancalaGame>(aNewMancalaGame,HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{gameid}/pits/{pitid}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<MancalaGameStatus> makeAMoveInTheGame(@PathVariable Integer gameId,
+                                                                @PathVariable Integer pitId){
+        return null;
     }
 }
