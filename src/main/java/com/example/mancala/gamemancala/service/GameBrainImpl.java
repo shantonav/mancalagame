@@ -28,7 +28,11 @@ public class GameBrainImpl implements  GameBrain{
                     MancalaGameUtil.isPitAKalahForPlayer(roundedPitIndex+1,nextPlayer);
             // Check if pitIndex is a Kalah and it belongs to the opponent player
             if (isPitKalahForOpponentPlayer){
-                roundedPitIndex = 0; // Resetting back the index to array Index 0
+                if (currentPlayer == Constants.PLAYER_ONE) {
+                    roundedPitIndex = Constants.ZERO; // Resetting back the index to array Index 0
+                }else{
+                    roundedPitIndex++; // Else move forward to the next pit.
+                }
                 counter--; // Reducing the counter by 1 as we did not sow our seed there.
                 continue;
             }

@@ -1,5 +1,6 @@
 package com.example.mancala.gamemancala.unit;
 
+import com.example.mancala.gamemancala.entity.GameStatus;
 import com.example.mancala.gamemancala.entity.MancalaGameEntity;
 import com.example.mancala.gamemancala.model.MancalaGame;
 import com.example.mancala.gamemancala.model.MancalaGameStatus;
@@ -49,10 +50,10 @@ public class MancalaServiceImplTest {
     }
 
     @MockBean
-    private static GameRepository mockedRepo;
+    private  GameRepository mockedRepo;
 
     @Autowired
-    private static GameBrain gameBrain;
+    private  GameBrain gameBrain;
 
     private static Integer gameId = MancalaGameUtil.nextGameId();
 
@@ -68,17 +69,37 @@ public class MancalaServiceImplTest {
     }
 
     @Test
-    public void testMancalaMoveForPlayer1From1stPit(){
+    public void testMancalaMoveForPlayer2From8thtPit(){
         MancalaGameEntity gameEntity = new MancalaGameEntity(gameId);
+        gameEntity.setCurrentPlayer(2);
 
         Mockito.when(mockedRepo.findById(Mockito.any(Integer.class))).thenReturn(
                 Optional.of(gameEntity) );
 
-        MancalaGameStatus gameStatus = mancalaGameService.makeAMove(gameId,1);
+        MancalaGameStatus gameStatus = mancalaGameService.makeAMove(gameId,8);
 
-        System.out.print(gameStatus);
+        Assert.assertEquals(GameStatus.INPROGRESS.getGameStatusDescr(),gameStatus.getGameStatus());
+        Assert.assertEquals(Integer.valueOf(1),gameStatus.getPitStatus().get(Integer.valueOf(14)));
 
     }
+
+    @Test
+    public void testMancalaMoveForPlayer2From9thtPit(){
+        MancalaGameEntity gameEntity = new MancalaGameEntity(gameId);
+        gameEntity.getPits()[8] = 12 ; // Let's assume 9th pit of player 2 has 12 seeds
+        gameEntity.getPits()[7] = 0 ; // Assuming 8th pit of player 2 is empty.
+        gameEntity.setCurrentPlayer(2);
+
+        Mockito.when(mockedRepo.findById(Mockito.any(Integer.class))).thenReturn(
+                Optional.of(gameEntity) );
+
+        MancalaGameStatus gameStatus = mancalaGameService.makeAMove(gameId,9);
+
+        Assert.assertEquals(GameStatus.INPROGRESS.getGameStatusDescr(),gameStatus.getGameStatus());
+        Assert.assertEquals(Integer.valueOf(9),gameStatus.getPitStatus().get(Integer.valueOf(14)));
+
+    }
+
 
 
 

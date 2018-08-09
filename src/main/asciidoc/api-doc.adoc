@@ -1,0 +1,48 @@
+= Getting Started With mancala game
+
+
+==Examples of important test scenarios covered to meet the objectives of the solution
+
+=== 1. Test game creation - HTTP 201
+
+.request
+include::{snippets}/test-game-creation/http-request.adoc[]
+include::{snippets}/test-game-creation/curl-request.adoc[]
+
+.response
+include::{snippets}/test-game-creation/http-response.adoc[]
+
+=== 2.  test-move-on-a-game-that-does-exist-and-the-next-move-is-of-the-same-player - HTTP 400
+.request
+include::{snippets}/test-move-on-a-game-that-does-exist-and-the-next-move-is-of-the-same-player/http-request.adoc[]
+include::{snippets}/test-move-on-a-game-that-does-exist-and-the-next-move-is-of-the-same-player/curl-request.adoc[]
+
+.response
+include::{snippets}/test-move-on-a-game-that-does-exist-and-the-next-move-is-of-the-same-player/http-response.adoc[]
+
+=== 3. test-move-on-a-game-that-does-exist-but-pit-id-does-not-belong-to-the-current-player - HTTP 400
+.request
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-does-not-belong-to-the-current-player/http-request.adoc[]
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-does-not-belong-to-the-current-player/curl-request.adoc[]
+
+.response
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-does-not-belong-to-the-current-player/http-response.adoc[]
+
+=== 4. test-move-on-a-game-that-does-exist-but-pit-id-is-the-kalah-of-the-current-player - HTTP 400
+
+.request
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-is-the-kalah-of-the-current-player/http-request.adoc[]
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-is-the-kalah-of-the-current-player/curl-request.adoc[]
+
+.response
+include::{snippets}/test-move-on-a-game-that-does-exist-but-pit-id-is-the-kalah-of-the-current-player/http-response.adoc[]
+
+=== 5. test-move-on-a-game-that-does-not-exist - 124 - HTTP 400
+
+.request
+include::{snippets}/test-move-on-a-game-that-does-not-exist/http-request.adoc[]
+include::{snippets}/test-move-on-a-game-that-does-not-exist/curl-request.adoc[]
+
+.response
+include::{snippets}/test-move-on-a-game-that-does-not-exist/http-response.adoc[]
+

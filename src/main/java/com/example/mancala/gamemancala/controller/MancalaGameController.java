@@ -61,7 +61,7 @@ public class MancalaGameController {
         }catch(GameServiceException ex){
             throw new GameApiException(ex.getMessage());
         }
-        return new ResponseEntity<>(gameStatus,HttpStatus.CREATED);
+        return new ResponseEntity<>(gameStatus,HttpStatus.OK);
     }
 
     private String getReturnURI(final HttpServletRequest httpRequest, final Optional<String> additionalPath) {
