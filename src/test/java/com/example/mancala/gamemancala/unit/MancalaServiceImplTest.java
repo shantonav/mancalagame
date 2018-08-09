@@ -1,8 +1,11 @@
 package com.example.mancala.gamemancala.unit;
 
 import com.example.mancala.gamemancala.entity.MancalaGameEntity;
+import com.example.mancala.gamemancala.model.MancalaGame;
+import com.example.mancala.gamemancala.model.MancalaGameStatus;
 import com.example.mancala.gamemancala.repository.GameRepository;
 import com.example.mancala.gamemancala.service.GameBrain;
+import com.example.mancala.gamemancala.service.GameBrainImpl;
 import com.example.mancala.gamemancala.service.MancalaGameService;
 import com.example.mancala.gamemancala.service.MancalaGameServiceImpl;
 import com.example.mancala.gamemancala.util.MancalaGameUtil;
@@ -21,6 +24,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 /**
  * Created by shantonav on 07/08/2018.
  */
@@ -37,6 +42,8 @@ public class MancalaServiceImplTest {
             return new MancalaGameServiceImpl();
         }
 
+        @Bean GameBrain gameBrain(){ return new GameBrainImpl(); }
+
 
 
     }
@@ -44,7 +51,7 @@ public class MancalaServiceImplTest {
     @MockBean
     private static GameRepository mockedRepo;
 
-    @MockBean
+    @Autowired
     private static GameBrain gameBrain;
 
     private static Integer gameId = MancalaGameUtil.nextGameId();
@@ -62,8 +69,17 @@ public class MancalaServiceImplTest {
 
     @Test
     public void testMancalaMoveForPlayer1From1stPit(){
+        MancalaGameEntity gameEntity = new MancalaGameEntity(gameId);
 
+        Mockito.when(mockedRepo.findById(Mockito.any(Integer.class))).thenReturn(
+                Optional.of(gameEntity) );
 
+        MancalaGameStatus gameStatus = mancalaGameService.makeAMove(gameId,1);
+
+        System.out.print(gameStatus);
 
     }
+
+
+
 }

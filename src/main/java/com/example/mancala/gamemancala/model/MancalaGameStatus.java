@@ -7,9 +7,18 @@ import java.util.Map;
  */
 public class MancalaGameStatus {
     private Integer gameId;
-    private Map<Integer,Integer> pitMap;
+    private Map<Integer,Integer> pitStatus;
     private String gameStatus;
     private Integer whoWon;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getGameStatus() {
         return gameStatus;
@@ -27,24 +36,27 @@ public class MancalaGameStatus {
         this.whoWon = whoWon;
     }
 
-    public MancalaGameStatus(Integer gameId, Map<Integer, Integer> pitMap) {
+    public MancalaGameStatus(Integer gameId, Map<Integer, Integer> pitStatus) {
         this.gameId = gameId;
-        this.pitMap = pitMap;
+        this.pitStatus = pitStatus;
     }
 
     public Integer getGameId() {
         return gameId;
     }
 
-    public Map<Integer, Integer> getPitMap() {
-        return pitMap;
+    public Map<Integer, Integer> getPitStatus() {
+        return pitStatus;
     }
 
     @Override
     public String toString() {
         return "MancalaGameStatus{" +
                 "gameId=" + gameId +
-                ", pitMap=" + pitMap +
+                ", pitStatus=" + pitStatus +
+                ", gameStatus='" + gameStatus + '\'' +
+                ", whoWon=" + whoWon +
+                ", url='" + url + '\'' +
                 '}';
     }
 
@@ -56,14 +68,14 @@ public class MancalaGameStatus {
         MancalaGameStatus that = (MancalaGameStatus) o;
 
         if (gameId != null ? !gameId.equals(that.gameId) : that.gameId != null) return false;
-        return pitMap != null ? pitMap.equals(that.pitMap) : that.pitMap == null;
+        return pitStatus != null ? pitStatus.equals(that.pitStatus) : that.pitStatus == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = gameId != null ? gameId.hashCode() : 0;
-        result = 31 * result + (pitMap != null ? pitMap.hashCode() : 0);
+        result = 31 * result + (pitStatus != null ? pitStatus.hashCode() : 0);
         return result;
     }
 }

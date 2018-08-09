@@ -37,8 +37,7 @@ public class GameBrainImpl implements  GameBrain{
             /**
              * This condition states if
              *
-             *
-             * a. it is empty
+             * a. the pit is empty
              * AND
              * B. it is the last pit to be sowed
              *
@@ -58,6 +57,9 @@ public class GameBrainImpl implements  GameBrain{
             }else if (
                     counter == (numberOfSeedsInThePit - 1)
                     && MancalaGameUtil.isPitAKalahForPlayer(roundedPitIndex+1,currentPlayer)){
+                // If the pit is the current player's Kalah then
+                // add the seed to it
+                // and do not change the current player
                 pits[roundedPitIndex] += 1;
                 nextPlayer = currentPlayer;
             }else{

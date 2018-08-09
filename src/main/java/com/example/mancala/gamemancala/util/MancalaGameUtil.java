@@ -96,4 +96,5 @@ public class MancalaGameUtil {
             return Constants.KALAH_FORPLAYER_TWO;
     }
 
+
 }

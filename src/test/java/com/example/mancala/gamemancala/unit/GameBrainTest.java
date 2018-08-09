@@ -12,6 +12,7 @@ import org.junit.Test;
  */
 public class GameBrainTest {
 
+    // Scebario to test when the current player's seed lands on its own Kahlah, hence it is its turn once again.
     @Test
     public void testMancalaMoveForPlayer1From1stPit(){
         GameBrain gameBrain = new GameBrainImpl();
