@@ -48,16 +48,17 @@ public class MancalaGameController {
         return  new ResponseEntity<>(aNewMancalaGame,HttpStatus.CREATED);
     }
 
-    @PutMapping("/{gameid}/pits/{pitid}")
+    @PutMapping("{gameid}/pits/{pitid}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<MancalaGameStatus> makeAMoveInTheGame(@PathVariable Integer gameId,
-                                                                @PathVariable Integer pitId){
+    public ResponseEntity<MancalaGameStatus> makeAMoveInTheGame(@PathVariable("gameid") Integer gameId,
+                                                                @PathVariable("pitid") Integer pitId){
 
         MancalaGameStatus gameStatus = null;
         try {
-            mancalaGameService.makeAMove(gameId, pitId);
+            ValidationUtil.validatePit(pitId);
+            gameStatus = mancalaGameService.makeAMove(gameId, pitId);
         }catch(GameServiceException ex){
-            throw new GameApiException(ex);
+            throw new GameApiException(ex.getMessage());
         }
         return new ResponseEntity<>(gameStatus,HttpStatus.CREATED);
     }

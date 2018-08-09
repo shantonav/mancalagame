@@ -9,6 +9,7 @@ import com.example.mancala.gamemancala.util.MancalaGameUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Optional;
 /**
  * Created by shantonav on 07/08/2018.
  */
+@Service
 @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE)
 public class MancalaGameServiceImpl implements  MancalaGameService{
 
@@ -59,7 +61,7 @@ public class MancalaGameServiceImpl implements  MancalaGameService{
                 throw new GameServiceException("Pit id "+pitId+" is not valid for player "+currentPlayer);
             }
 
-            if ( pits[pitId].equals(Constants.ZERO)){
+            if ( pits[pitId-1].equals(Constants.ZERO)){
                 throw new GameServiceException("Pit id "+pitId+" is has no stones please chose another non-empty pit");
             }
 
@@ -87,6 +89,10 @@ public class MancalaGameServiceImpl implements  MancalaGameService{
 
     private MancalaGameStatus convertGameToGameStatus(MancalaGameEntity game) {
         final MancalaGameStatus gameStatus = new MancalaGameStatus(game.getGameId(),generatePitMap(game.getPits()));
+        gameStatus.setGameStatus(game.getGameStatus().getGameStatusDescr());
+        if (game.getGameStatus().equals(GameStatus.GAMEOVER)){
+            gameStatus.setWhoWon(game.getWhoWon());
+        }
         return gameStatus;
     }
 

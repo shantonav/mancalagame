@@ -58,7 +58,6 @@ public class MancalaServiceImplTest {
         Integer returnedGameId = mancalaGameService.createANewGame();
         Assert.assertEquals(gameId,returnedGameId);
 
-
     }
 
     @Test

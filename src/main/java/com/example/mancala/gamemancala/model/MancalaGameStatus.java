@@ -8,6 +8,24 @@ import java.util.Map;
 public class MancalaGameStatus {
     private Integer gameId;
     private Map<Integer,Integer> pitMap;
+    private String gameStatus;
+    private Integer whoWon;
+
+    public String getGameStatus() {
+        return gameStatus;
+    }
+
+    public void setGameStatus(String gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
+    public Integer getWhoWon() {
+        return whoWon;
+    }
+
+    public void setWhoWon(Integer whoWon) {
+        this.whoWon = whoWon;
+    }
 
     public MancalaGameStatus(Integer gameId, Map<Integer, Integer> pitMap) {
         this.gameId = gameId;
