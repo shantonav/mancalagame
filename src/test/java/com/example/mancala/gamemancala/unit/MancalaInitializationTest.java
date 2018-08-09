@@ -15,7 +15,7 @@ public class MancalaInitializationTest {
     @Test
     public void testMancalaInitialization(){
 
-        MancalaGameEntity mancalaGameEntity = new MancalaGameEntity(MancalaGameUtil.aRandonNumber.nextInt(Integer.MAX_VALUE));
+        MancalaGameEntity mancalaGameEntity = new MancalaGameEntity(MancalaGameUtil.nextGameId());
 
         Integer[] pits = mancalaGameEntity.getPits();
         int index = 0;

@@ -2,6 +2,7 @@ package com.example.mancala.gamemancala.unit;
 
 import com.example.mancala.gamemancala.entity.MancalaGameEntity;
 import com.example.mancala.gamemancala.repository.GameRepository;
+import com.example.mancala.gamemancala.service.GameBrain;
 import com.example.mancala.gamemancala.service.MancalaGameService;
 import com.example.mancala.gamemancala.service.MancalaGameServiceImpl;
 import com.example.mancala.gamemancala.util.MancalaGameUtil;
@@ -43,16 +44,26 @@ public class MancalaServiceImplTest {
     @MockBean
     private static GameRepository mockedRepo;
 
-    private static Integer gameId = MancalaGameUtil.aRandonNumber.nextInt(Integer.MAX_VALUE);
+    @MockBean
+    private static GameBrain gameBrain;
+
+    private static Integer gameId = MancalaGameUtil.nextGameId();
 
 
 
     @Test
-    public void testMancalaInitialization(){
+    public void testNewGameCreation(){
         Mockito.when(mockedRepo.save(Mockito.any(MancalaGameEntity.class))).thenReturn(new MancalaGameEntity(gameId));
 
         Integer returnedGameId = mancalaGameService.createANewGame();
         Assert.assertEquals(gameId,returnedGameId);
+
+
+    }
+
+    @Test
+    public void testMancalaMoveForPlayer1From1stPit(){
+
 
 
     }

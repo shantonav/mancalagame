@@ -2,6 +2,10 @@ package com.example.mancala.gamemancala.controller;
 
 import com.example.mancala.gamemancala.model.MancalaGame;
 import com.example.mancala.gamemancala.model.MancalaGameStatus;
+import com.example.mancala.gamemancala.service.GameServiceException;
+import com.example.mancala.gamemancala.service.MancalaGameService;
+import com.example.mancala.gamemancala.util.MancalaGameUtil;
+import com.example.mancala.gamemancala.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +25,16 @@ import javax.validation.Valid;
 @RequestMapping(value = "/games", produces = "application/json", consumes = "application/json")
 public class MancalaGameController {
 
+    @Autowired
+    private MancalaGameService mancalaGameService;
+
     private static final Logger log = LoggerFactory.getLogger(MancalaGameController.class);
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MancalaGame> startAndInitializeMancalaGame()  {
         final HttpServletRequest httpRequest =
                 ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-        final Integer gameId = Integer.valueOf(999);
+        final Integer gameId = mancalaGameService.createANewGame();
 
         final String returnURI = httpRequest.getProtocol().substring(
                             0,httpRequest.getProtocol().indexOf("/")).toLowerCase()
@@ -38,13 +45,20 @@ public class MancalaGameController {
 
         MancalaGame aNewMancalaGame = new MancalaGame(gameId,returnURI);
         log.info("Mancala with game id {} created",gameId);
-        return  new ResponseEntity<MancalaGame>(aNewMancalaGame,HttpStatus.CREATED);
+        return  new ResponseEntity<>(aNewMancalaGame,HttpStatus.CREATED);
     }
 
     @PutMapping("/{gameid}/pits/{pitid}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MancalaGameStatus> makeAMoveInTheGame(@PathVariable Integer gameId,
                                                                 @PathVariable Integer pitId){
-        return null;
+
+        MancalaGameStatus gameStatus = null;
+        try {
+            mancalaGameService.makeAMove(gameId, pitId);
+        }catch(GameServiceException ex){
+            throw new GameApiException(ex);
+        }
+        return new ResponseEntity<>(gameStatus,HttpStatus.CREATED);
     }
 }

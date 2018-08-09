@@ -8,7 +8,7 @@ public interface Constants {
     Integer PLAYER_ONE = Integer.valueOf(1);
     Integer PLAYER_TWO = Integer.valueOf(2);
     int KALAH_FOR_PLAYER_ONE = 7;
-    int KALAH_FORPLAYER_TWO = 13;
+    int KALAH_FORPLAYER_TWO = 14;
     int PIT_ID_START_INDEX = 1;
     int PIT_ID_END_INDEX = 14;
 }

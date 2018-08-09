@@ -1,5 +1,6 @@
 package com.example.mancala.gamemancala.entity;
 
+import com.example.mancala.gamemancala.util.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +17,16 @@ public class MancalaGameEntity implements Serializable{
     @Id
     private Integer gameId;
     private Integer[] pits ;
+    private GameStatus gameStatus;
+    private Integer whoWon;
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+    }
+
+    public void setWhoWon(Integer whoWon) {
+        this.whoWon = whoWon;
+    }
 
     public MancalaGameEntity(Integer gameId) {
         this.gameId = gameId;
@@ -29,8 +40,10 @@ public class MancalaGameEntity implements Serializable{
         pits = Stream.generate(() -> initialSeeds)
                         .limit(14).toArray(pit -> new Integer[pit]);
 
-        pits[pits.length/2-1] = 0 ; // Kalah for Player 1
-        pits[pits.length-1] = 0 ; // Kalah for player 2
+        pits[pits.length/2-1] = Constants.ZERO; // Kalah for Player 1
+        pits[pits.length-1] = Constants.ZERO ; // Kalah for player 2
+
+        this.gameStatus = GameStatus.INPROGRESS;
     }
 
     public Integer getGameId() {
@@ -54,9 +67,19 @@ public class MancalaGameEntity implements Serializable{
                 '}';
     }
 
+    public Integer getWhoWon() {
+        return whoWon;
+    }
+
+    public GameStatus getGameStatus() {
+
+        return gameStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (!(o instanceof MancalaGameEntity)) return false;
 
         MancalaGameEntity that = (MancalaGameEntity) o;
@@ -73,5 +96,13 @@ public class MancalaGameEntity implements Serializable{
         result = 31 * result + Arrays.hashCode(pits);
         result = 31 * result + currentPlayer;
         return result;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setPits(Integer[] pits) {
+        this.pits = pits;
     }
 }

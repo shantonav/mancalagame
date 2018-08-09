@@ -6,25 +6,25 @@ import java.util.Random;
  * Created by shantonav on 07/08/2018.
  */
 public class MancalaGameUtil {
-    public static final Random aRandonNumber = new Random();
+    private static final Random aRandonNumber = new Random();
 
-    public static Integer determineTheCurrentPlayer(final int[] pits,
-                                                    final Integer currentPlayer, final int lastPitSowed){
-        return 0;
+    public static Integer nextGameId(){
+        return MancalaGameUtil.aRandonNumber.nextInt(Integer.MAX_VALUE);
     }
 
-    public static int getOpponentPitId(final Integer currentPlayer, final int pitId){
-        return 0;
+
+    public static int getOpponentPitId(final int pitId){
+        return (Constants.KALAH_FORPLAYER_TWO- (pitId +1) % 14) - 1;
     }
 
     public static boolean isPitIdForCurrentPlayer(final Integer pitId, final Integer currentPlayer){
         boolean pitIdBelongsToCurrentPlayer = false;
         if (currentPlayer == Constants.PLAYER_ONE){
-            if ( pitId >= Constants.PIT_ID_START_INDEX && pitId <= Constants.KALAH_FOR_PLAYER_ONE){
+            if ( pitId >= Constants.PIT_ID_START_INDEX && pitId < Constants.KALAH_FOR_PLAYER_ONE){
                 pitIdBelongsToCurrentPlayer = true;
             }
         }else {
-            if (pitId >= Constants.KALAH_FOR_PLAYER_ONE+1 && pitId <= Constants.PIT_ID_END_INDEX){
+            if (pitId >= Constants.KALAH_FOR_PLAYER_ONE+1 && pitId < Constants.PIT_ID_END_INDEX){
                 pitIdBelongsToCurrentPlayer = true;
             }
         }
@@ -35,32 +35,37 @@ public class MancalaGameUtil {
     public static boolean isPlayersPitEmpty(final Integer[] pits,final Integer currentPlayer){
         boolean isPlayersPitEmpty = false;
         if ( currentPlayer == 1){
-            isPlayersPitEmpty = checkIfAllPitsOfPlayerempty(pits,Constants.PIT_ID_START_INDEX-1,Constants.KALAH_FOR_PLAYER_ONE);
+            isPlayersPitEmpty =
+                    checkIfAllPitsOfPlayerempty(pits,Constants.PIT_ID_START_INDEX-1,Constants.KALAH_FOR_PLAYER_ONE-1); // Excluding the Kalah pit
         }else{
-            isPlayersPitEmpty = checkIfAllPitsOfPlayerempty(pits,Constants.KALAH_FOR_PLAYER_ONE,Constants.PIT_ID_END_INDEX);
+            isPlayersPitEmpty = checkIfAllPitsOfPlayerempty(pits,Constants.KALAH_FOR_PLAYER_ONE,Constants.PIT_ID_END_INDEX-1); // Excluding the Kalah pit
         }
         return  isPlayersPitEmpty;
     }
 
     private static boolean checkIfAllPitsOfPlayerempty(final Integer[] pits,final int start, final int end){
         for (int index =start ; index <end ; index++){
-            if ( !pits[index].equals(Integer.valueOf(0))){
+            if (  !pits[index].equals(Integer.valueOf(0))){
                 return false;
             }
         }
         return true;
     }
 
-    public static void moveALlStonesToPlayersKalah(final Integer player, final Integer[] pits){
+    public static void moveAllStonesToPlayersKalah(final Integer player, final Integer[] pits){
         int kalahIndex = Constants.KALAH_FOR_PLAYER_ONE;
-        int startIndex = Constants.PIT_ID_START_INDEX;
+        int startIndex = Constants.ZERO;
+
         if (player == Constants.PLAYER_TWO){
             kalahIndex = Constants.KALAH_FORPLAYER_TWO;
             startIndex = Constants.KALAH_FOR_PLAYER_ONE;
-        }
 
-        for (int index = startIndex - 1 ; index< kalahIndex ; index++) {
+        }
+        int endIndex = kalahIndex -1 ;
+
+        for (int index = startIndex  ; index< endIndex ; index++) {
             pits[kalahIndex-1] += pits[index] ;
+            pits[index] = 0; // As we have added all the seeds to the player's kalah
         }
 
     }
@@ -71,15 +76,24 @@ public class MancalaGameUtil {
         else return Constants.PLAYER_TWO;
     }
 
-    public static void makeAMoveForPlayer(final Integer[] pits, final int pitid, final Integer currentPlayer){
 
-        int startIndex = pitid - 1 ; // Get the array index for the pitid
-        int numberOfSeedsInThePit = pits[startIndex]; // Get the no of seeds in the current pit
-        // From the next pit till the number of seeds in at pitId
-        pits[startIndex] = 0; // Take all the seeds from the Pit
-        for (int seedIndex = 0 ; seedIndex < numberOfSeedsInThePit ; seedIndex++){
 
+    public static boolean isPitAKalahForPlayer(int pitIndex, Integer aPlayer) {
+        boolean isPitAKalahForTheCurrentPlayer = false;
+        if (( pitIndex == Constants.KALAH_FORPLAYER_TWO
+                && aPlayer == Constants.PLAYER_TWO)
+         || (pitIndex == Constants.KALAH_FOR_PLAYER_ONE
+                && aPlayer == Constants.PLAYER_ONE) ){
+            isPitAKalahForTheCurrentPlayer = true;
         }
+        return isPitAKalahForTheCurrentPlayer;
+    }
+
+    public static int getKalahIndexOfCurrentPayer(final Integer currentPlayer){
+        if (currentPlayer == Constants.PLAYER_ONE)
+            return Constants.KALAH_FOR_PLAYER_ONE;
+        else
+            return Constants.KALAH_FORPLAYER_TWO;
     }
 
 }
